@@ -96,15 +96,16 @@
             box-shadow: 0 0 30px #9d00ff99;
         }
 
+        /* Success message in pink */
         .success {
             margin-top: 15px;
-            color: #7aff9c;
+            color: #ff6ec7; /* Pink color */
             display: none;
             font-size: 15px;
-            text-shadow: 0 0 10px #00ff8844;
+            text-shadow: 0 0 10px #ff6ec733; /* Pink glow */
         }
 
-        /* --- SMOOTH MATCHING VIDEO BOX --- */
+        /* --- VIDEO BOX --- */
         .video-box {
             width: 100%;
             height: 200px;
@@ -151,6 +152,7 @@
             <h2>Tial</h2>
 
             <div class="video-box">
+                <!-- Added controls for fullscreen icon -->
                 <video autoplay muted loop controls>
                     <source src="2025-11-14_20-25-04.mp4" type="video/mp4">
                 </video>
@@ -185,7 +187,7 @@
             }
 
             const msgEl = document.getElementById("msg");
-            msgEl.style.display = "block";
+            msgEl.style.display = "block"; // Pink text shows up
             setTimeout(() => { msgEl.style.display = "none"; }, 3000);
             document.getElementById("message").value = "";
         }
