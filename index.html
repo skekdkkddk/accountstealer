@@ -13,9 +13,27 @@ body {
     font-family: "Inter", Arial, sans-serif;
     color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+/* --- PINK MAIN HEADING --- */
+.main-heading {
+    color: #ff6ec7;
+    font-size: 26px; /* bold and visible */
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #ff6ec733;
+    margin-bottom: 115px; /* raised slightly more */
+    animation: neonGlow 2s ease-in-out infinite alternate;
+}
+
+/* subtle neon pulse animation for the heading */
+@keyframes neonGlow {
+    from { text-shadow: 0 0 10px #ff6ec733, 0 0 20px #ff6ec733; }
+    to { text-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff6ec7; }
 }
 
 .wrapper {
@@ -26,7 +44,7 @@ body {
 /* --- BOTH BOXES MATCH --- */
 .container, .video-panel {
     background: rgba(25, 25, 35, 0.9);
-    padding: 45px;
+    padding: 45px 30px 30px 30px;
     border-radius: 14px;
     width: 340px;
     text-align: center;
@@ -54,7 +72,7 @@ h2 {
     text-shadow: 0 0 8px #8e44ff;
 }
 
-/* --- FLEX INPUT WITH ICON AND ANIMATION --- */
+/* --- FLEX INPUT WITH ICON AND FOCUS ANIMATION --- */
 .input-wrapper {
     display: flex;
     align-items: center;
@@ -63,7 +81,7 @@ h2 {
     border-radius: 8px;
     padding: 8px 12px;
     margin-bottom: 20px;
-    transition: 0.25s ease; /* smooth animation */
+    transition: 0.25s ease;
 }
 
 .input-wrapper svg {
@@ -80,11 +98,10 @@ h2 {
     color: #e8e8ff;
     font-size: 15px;
     outline: none;
-    transition: 0.25s ease; /* smooth animation */
+    transition: 0.25s ease;
 }
 
-/* --- Hover/focus effect --- */
-.input-wrapper:hover,
+/* --- Focus animation on input --- */
 .input-wrapper input:focus {
     transform: scale(1.03);
     border-color: #8e44ff;
@@ -147,6 +164,9 @@ button:hover {
 </style>
 </head>
 <body>
+
+<!-- Single pink heading above both panels -->
+<div class="main-heading">Neon Panel Dashboard</div>
 
 <div class="wrapper">
 
