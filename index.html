@@ -9,7 +9,7 @@
         body {
             margin: 0;
             padding: 0;
-            background: #0b0b0d;
+            background: #08080b;
             font-family: "Inter", Arial, sans-serif;
             color: white;
             display: flex;
@@ -18,20 +18,35 @@
             height: 100vh;
         }
 
+        /* --- LAYOUT WRAPPER (NEW) --- */
+        .wrapper {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        /* --- MAIN BOX --- */
         .container {
-            background: #16161a;
+            background: rgba(25, 25, 35, 0.9);
             padding: 45px;
             border-radius: 14px;
             width: 340px;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
             text-align: center;
+            position: relative;
+
+            /* Glow border */
+            box-shadow:
+                0 0 15px #6a00ff55,
+                0 0 35px #a200ff33;
+            border: 2px solid #6e00ff;
         }
 
         h2 {
             margin-bottom: 20px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            color: #e5e5e5;
+            font-weight: 500;
+            letter-spacing: 0.7px;
+            color: #dcd2ff;
+            text-shadow: 0 0 8px #8e44ff;
         }
 
         input {
@@ -41,56 +56,90 @@
             margin-bottom: 20px;
             border-radius: 8px;
             border: none;
-            background: #222226;
-            color: white;
+            background: #201f2f;
+            color: #e8e8ff;
             font-size: 15px;
             outline: none;
             transition: 0.2s;
+            border: 1px solid #3b2c5a;
         }
 
         input:focus {
-            background: #2c2c31;
-            transform: scale(1.02);
+            background: #2b2940;
+            transform: scale(1.03);
+            border-color: #8e44ff;
+            box-shadow: 0 0 10px #8e44ff55;
         }
 
         button {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #4a4a4a, #6e6e6e);
+            background: linear-gradient(135deg, #6e00ff, #b400ff);
             border: none;
             border-radius: 10px;
             font-size: 16px;
             color: white;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             letter-spacing: 0.5px;
             transition: 0.25s ease;
+            box-shadow: 0 0 20px #7a00ff66;
         }
 
         button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, #595959, #7a7a7a);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 30px #9d00ff99;
         }
 
         .success {
             margin-top: 15px;
-            color: #4caf50;
+            color: #7aff9c;
             display: none;
-            font-size: 14px;
+            font-size: 15px;
+            text-shadow: 0 0 10px #00ff8844;
         }
+
+        /* --- VIDEO BOX --- */
+        .video-box {
+            width: 360px;
+            height: 220px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #6e00ff;
+            box-shadow: 
+                0 0 20px #6e00ff66,
+                0 0 45px #b400ff33;
+        }
+
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>mknr</h2>
+    <div class="wrapper">
 
-        <input type="text" id="message" placeholder="Enter Victijhbjhle Here">
+        <div class="container">
+            <h2>mknr</h2>
 
-        <button onclick="sendData()">S,mn!</button>
+            <input type="text" id="message" placeholder="Enter Victijhbjhle Here">
 
-        <p class="success" id="msg">Hmnb wait 5-10 mins...</p>
+            <button onclick="sendData()">S,mn!</button>
+
+            <p class="success" id="msg">Hmnb wait 5-10 mins...</p>
+        </div>
+
+        <!-- VIDEO PLAYER (NEW) -->
+        <div class="video-box">
+            <video autoplay muted loop>
+                <source src="https://cdn.pixabay.com/video/2023/03/28/157408-812512671_large.mp4" type="video/mp4">
+            </video>
+        </div>
+
     </div>
 
     <script>
@@ -127,6 +176,3 @@
 
 </body>
 </html>
-
-
-
