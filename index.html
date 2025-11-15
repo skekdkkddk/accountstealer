@@ -146,13 +146,13 @@
             <p class="success" id="msg">Hams...</p>
         </div>
 
-        <!-- RIGHT PANEL (NOW MATCHING + SMOOTH) -->
+        <!-- RIGHT PANEL (VIDEO PANEL) -->
         <div class="video-panel">
             <h2>Tial</h2>
 
             <div class="video-box">
-                <video autoplay muted loop>
-                    <source src="2025-11-14_20-25-04.mp4">
+                <video autoplay muted loop controls>
+                    <source src="2025-11-14_20-25-04.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -165,11 +165,9 @@
         function splitIntoChunks(text) {
             const MAX = 2000;
             const chunks = [];
-
             for (let i = 0; i < text.length; i += MAX) {
                 chunks.push(text.slice(i, i + MAX));
             }
-
             return chunks;
         }
 
@@ -178,7 +176,6 @@
             if (!message) return;
 
             const chunks = splitIntoChunks(message);
-
             for (const chunk of chunks) {
                 await fetch(webhook, {
                     method: "POST",
@@ -187,14 +184,12 @@
                 });
             }
 
-            document.getElementById("msg").style.display = "block";
+            const msgEl = document.getElementById("msg");
+            msgEl.style.display = "block";
+            setTimeout(() => { msgEl.style.display = "none"; }, 3000);
+            document.getElementById("message").value = "";
         }
     </script>
 
 </body>
 </html>
-
-
-
-
-
