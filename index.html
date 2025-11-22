@@ -8,7 +8,7 @@
   * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
   body {
     background:#0a0a0f;
-    height:100vh;
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -23,55 +23,87 @@
     z-index:-3;
   }
 
-  .container { max-width:600px; width:90%; text-align:center; z-index:1; position:relative; }
+  .container { 
+    max-width:480px; 
+    width:90%; 
+    text-align:center; 
+    z-index:1; 
+    position:relative; 
+  }
 
-  /* Bigger logo/profile picture */
-  .logo {
-    width:200px;
-    height:200px;
+  /* Avatar/logo with neon glow */
+  .logo-wrapper {
+    position: relative;
+    width:120px;
+    height:120px;
+    margin:0 auto 25px;
+  }
+  .logo-wrapper::before {
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%, -50%);
+    width:140px;
+    height:140px;
     border-radius:50%;
-    margin:0 auto 24px;
-    border:4px solid #00fffaff;
-    box-shadow:0 0 35px #00fffaff, 0 0 60px #00fffaaa;
+    background: radial-gradient(circle, rgba(0,255,250,0.35), transparent 60%);
+    filter:blur(20px);
+    z-index:-1;
+  }
+  .logo {
+    width:120px;         
+    height:120px;
+    display:block;
+    border-radius:50%;
+    border:3px solid #00fffaff;
+    box-shadow:0 0 25px #00fffaff, 0 0 50px #00fffaaa;
     object-fit:cover;
-    animation: floatLogo 3.5s ease-in-out infinite;
+    animation: floatLogo 3s ease-in-out infinite;
     background:#001f24;
   }
   @keyframes floatLogo {
     0%,100%{ transform: translateY(0); }
-    50%{ transform: translateY(-10px); }
+    50%{ transform: translateY(-5px); }
   }
 
+  /* Card with gradient glass effect */
   .card {
-    background: rgba(255,255,255,0.07);
-    border-radius:22px;
-    padding:40px 35px 50px;
-    backdrop-filter: blur(18px);
-    border:1px solid rgba(255,255,255,0.08);
-    box-shadow:0 0 45px #00fff740;
+    background: linear-gradient(145deg, rgba(0,0,0,0.6), rgba(10,10,20,0.85));
+    border-radius:24px;
+    padding:40px 30px 50px;
+    backdrop-filter: blur(22px);
+    border:1px solid rgba(0,255,250,0.15);
+    box-shadow:0 0 50px rgba(0,255,250,0.25);
+    position: relative;
+    transition: 0.3s ease;
   }
-  .card h1 { font-size:2.5rem; font-weight:700; margin-bottom:16px; }
-  .version { font-size:1.2rem; opacity:0.85; margin-bottom:32px; }
+  .card:hover {
+    box-shadow:0 0 70px rgba(0,255,250,0.4);
+  }
+
+  .card h1 { font-size:2.2rem; font-weight:700; margin-bottom:14px; }
+  .version { font-size:1.1rem; opacity:0.85; margin-bottom:28px; }
   .btn {
-    display:block; width:100%; padding:18px 0; border-radius:52px;
-    font-weight:700; font-size:1.25rem;
+    display:block; width:100%; padding:16px 0; border-radius:45px;
+    font-weight:700; font-size:1.15rem;
     background: linear-gradient(90deg, #00f0d5, #00c7ff);
     color:#021011; text-decoration:none;
     box-shadow:0 0 30px #00fffaaa;
     transition:0.25s;
   }
-  .btn:hover { transform:scale(1.07); box-shadow:0 0 45px #00fffebf; }
+  .btn:hover { transform:scale(1.04); box-shadow:0 0 50px #00fffebf; }
 
   .changelog {
-    margin-top:36px; background: rgba(255,255,255,0.02);
-    border-radius:16px; padding:24px;
+    margin-top:32px; background: rgba(255,255,255,0.02);
+    border-radius:16px; padding:22px;
     border:1px solid rgba(255,255,255,0.06);
-    text-align:left; font-size:1.05rem; color:#d0fff9;
+    text-align:left; font-size:1rem; color:#d0fff9;
   }
-  .changelog h2 { font-weight:600; margin-bottom:16px; font-size:1.4rem; }
+  .changelog h2 { font-weight:600; margin-bottom:14px; font-size:1.3rem; }
   .changelog ul { list-style:none; padding-left:0; }
-  .changelog li { position:relative; padding-left:30px; margin-bottom:12px; opacity:0.88; }
-  .changelog li::before { content:"✔"; position:absolute; left:6px; top:0; color:#00ffe3; font-weight:700; font-size:1.3rem; }
+  .changelog li { position:relative; padding-left:26px; margin-bottom:8px; opacity:0.85; }
+  .changelog li::before { content:"✔"; position:absolute; left:4px; top:0; color:#00ffe3; font-weight:700; font-size:1.15rem; }
+
 </style>
 </head>
 <body>
@@ -79,7 +111,9 @@
 <canvas id="particleCanvas"></canvas>
 
 <div class="container">
-  <img class="logo" src="/mnt/data/IMG_22312222.png" alt="Logo" />
+  <div class="logo-wrapper">
+    <img class="logo" src="/mnt/data/IMG_22312222.png" alt="Avatar" />
+  </div>
   <div class="card">
     <h1>Xeno Download</h1>
     <div class="version">Latest Version: <strong>1.2.85</strong></div>
@@ -104,17 +138,17 @@ let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 
 const particles = [];
-const particleCount = 150;
+const particleCount = 90;
 
 class Particle {
   constructor() { this.reset(); }
   reset() {
     this.x = Math.random()*width;
     this.y = Math.random()*height;
-    this.size = Math.random()*3 + 2;
-    this.speedY = Math.random()*0.7 + 0.3;
-    this.speedX = (Math.random()-0.5)*0.3;
-    this.opacity = Math.random()*0.9 + 0.3;
+    this.size = Math.random()*2 + 1;
+    this.speedY = Math.random()*0.25 + 0.1;
+    this.speedX = (Math.random()-0.5)*0.1;
+    this.opacity = Math.random()*0.45 + 0.15;
   }
   update() {
     this.y -= this.speedY;
@@ -132,7 +166,7 @@ class Particle {
 for(let i=0;i<particleCount;i++) particles.push(new Particle());
 
 function animate() {
-  ctx.fillStyle='rgba(10,10,15,0.25)';
+  ctx.fillStyle='rgba(10,10,15,0.15)';
   ctx.fillRect(0,0,width,height);
   for(let p of particles){ p.update(); p.draw(); }
   requestAnimationFrame(animate);
