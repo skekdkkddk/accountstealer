@@ -1,21 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Greeting</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-            margin-top: 100px;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xeno Download</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
+  body {
+    background:#0a0a0f;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    color:white;
+  }
+
+  canvas {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    z-index:-3;
+  }
+
+  .container { max-width:600px; width:90%; text-align:center; z-index:1; position:relative; }
+
+  /* Bigger logo/profile picture */
+  .logo {
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    margin:0 auto 24px;
+    border:4px solid #00fffaff;
+    box-shadow:0 0 35px #00fffaff, 0 0 60px #00fffaaa;
+    object-fit:cover;
+    animation: floatLogo 3.5s ease-in-out infinite;
+    background:#001f24;
+  }
+  @keyframes floatLogo {
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(-10px); }
+  }
+
+  .card {
+    background: rgba(255,255,255,0.07);
+    border-radius:22px;
+    padding:40px 35px 50px;
+    backdrop-filter: blur(18px);
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 0 45px #00fff740;
+  }
+  .card h1 { font-size:2.5rem; font-weight:700; margin-bottom:16px; }
+  .version { font-size:1.2rem; opacity:0.85; margin-bottom:32px; }
+  .btn {
+    display:block; width:100%; padding:18px 0; border-radius:52px;
+    font-weight:700; font-size:1.25rem;
+    background: linear-gradient(90deg, #00f0d5, #00c7ff);
+    color:#021011; text-decoration:none;
+    box-shadow:0 0 30px #00fffaaa;
+    transition:0.25s;
+  }
+  .btn:hover { transform:scale(1.07); box-shadow:0 0 45px #00fffebf; }
+
+  .changelog {
+    margin-top:36px; background: rgba(255,255,255,0.02);
+    border-radius:16px; padding:24px;
+    border:1px solid rgba(255,255,255,0.06);
+    text-align:left; font-size:1.05rem; color:#d0fff9;
+  }
+  .changelog h2 { font-weight:600; margin-bottom:16px; font-size:1.4rem; }
+  .changelog ul { list-style:none; padding-left:0; }
+  .changelog li { position:relative; padding-left:30px; margin-bottom:12px; opacity:0.88; }
+  .changelog li::before { content:"✔"; position:absolute; left:6px; top:0; color:#00ffe3; font-weight:700; font-size:1.3rem; }
+</style>
 </head>
 <body>
-    <h1>Hi owner of mc buts</h1>
+
+<canvas id="particleCanvas"></canvas>
+
+<div class="container">
+  <img class="logo" src="/mnt/data/IMG_22312222.png" alt="Logo" />
+  <div class="card">
+    <h1>Xeno Download</h1>
+    <div class="version">Latest Version: <strong>1.2.85</strong></div>
+    <a href="#" class="btn">Download</a>
+    <div class="changelog">
+      <h2>What's New</h2>
+      <ul>
+        <li>Major UI performance improvements</li>
+        <li>Crash fixes & memory cleanup</li>
+        <li>Backend SSL upgraded</li>
+        <li>Injection engine optimized</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('particleCanvas');
+const ctx = canvas.getContext('2d');
+
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+const particles = [];
+const particleCount = 150;
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random()*width;
+    this.y = Math.random()*height;
+    this.size = Math.random()*3 + 2;
+    this.speedY = Math.random()*0.7 + 0.3;
+    this.speedX = (Math.random()-0.5)*0.3;
+    this.opacity = Math.random()*0.9 + 0.3;
+  }
+  update() {
+    this.y -= this.speedY;
+    this.x += this.speedX;
+    if(this.y < 0 || this.x < 0 || this.x > width) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(0, 255, 250, ${this.opacity})`;
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+for(let i=0;i<particleCount;i++) particles.push(new Particle());
+
+function animate() {
+  ctx.fillStyle='rgba(10,10,15,0.25)';
+  ctx.fillRect(0,0,width,height);
+  for(let p of particles){ p.update(); p.draw(); }
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+});
+</script>
+
 </body>
 </html>
