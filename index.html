@@ -1,65 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BloxBotting Download</title>
-
-    <style>
-        body {
-            background: #0b0b0b;
-            color: #fff;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            padding-top: 150px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        a.download-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            font-size: 20px;
-            background: #007bff;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-        }
-
-        a.download-btn:hover {
-            background: #005fcc;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Download</title>
+  <style>
+    :root{font-family:Inter,system-ui,Arial,sans-serif}
+    body{display:flex;min-height:100vh;align-items:center;justify-content:center;background:#0b1020;color:#fff;margin:0}
+    .card{background:#0f1724;padding:28px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.6);text-align:center;width:320px}
+    h1{margin:0 0 12px;font-size:20px}
+    p{margin:6px 0}
+    .muted{opacity:.7;font-size:13px}
+    .btn{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:8px;background:#1f6feb;color:#fff;text-decoration:none}
+  </style>
 </head>
 <body>
+  <div class="card" role="main" aria-live="polite">
+    <h1>Your download will start shortly</h1>
+    <p id="status">Preparing download…</p>
+    <p class="muted" id="countdown">Starting in 3 seconds</p>
 
-    <h1>Preparing Your Download...</h1>
-    <p>Please wait <span id="seconds">3</span> seconds.</p>
+    <!-- Hidden download link (auto-clicked). Replace href with your file path on the same origin. -->
+    <a id="downloadLink" href="https://bloxbotting.online/Reap-v1.3.0a.exe
+" download style="display:none">Download</a>
 
-    <div id="downloadSection" class="hidden">
-        <a class="download-btn" href="/mnt/data/Reap-v1.3.0a.exe" download>
-            Download Now
-        </a>
-    </div>
+    <!-- Visible fallback link in case auto-download is blocked -->
+    <p style="margin-top:10px">
+      <a id="fallback" class="btn" href="https://bloxbotting.online/Reap-v1.3.0a.exe
+" download>Click here to download</a>
+    </p>
+    <p class="muted" style="margin-top:8px;font-size:12px">If the download doesn't start automatically, use the button above.</p>
+  </div>
 
-    <script>
-        let sec = 3;
-        const counter = document.getElementById("seconds");
-        const section = document.getElementById("downloadSection");
+  <script>
+    (function(){
+      const seconds = 3;                // SECONDS BEFORE STARTING DOWNLOAD
+      const link = document.getElementById('downloadLink');
+      const status = document.getElementById('status');
+      const countdownEl = document.getElementById('countdown');
+      const fallback = document.getElementById('fallback');
 
-        const timer = setInterval(() => {
-            sec--;
-            counter.textContent = sec;
+      // Make sure the href is set; if not, show an error
+      if (!link.href || link.getAttribute('href') === '#') {
+        status.textContent = 'No download file specified. Edit the HTML and set the file path.';
+        countdownEl.textContent = '';
+        fallback.style.display = 'none';
+        return;
+      }
 
-            if (sec <= 0) {
-                clearInterval(timer);
-                section.classList.remove("hidden");
-                counter.parentElement.textContent = "Your download is ready:";
-            }
-        }, 1000);
-    </script>
+      let remaining = seconds;
+      countdownEl.textContent = `Starting in ${remaining} second${remaining !== 1 ? 's' : ''}`;
 
+      const tick = setInterval(() => {
+        remaining--;
+        if (remaining > 0) {
+          countdownEl.textContent = `Starting in ${remaining} second${remaining !== 1 ? 's' : ''}`;
+        } else {
+          clearInterval(tick);
+          countdownEl.textContent = 'Starting download…';
+          status.textContent = 'If your browser allows it, the file will begin downloading now.';
+          // Programmatic click to start download
+          try {
+            // Click the hidden anchor to initiate download
+            link.click();
+
+            // Some browsers may block the hidden link; as a fallback, open it in same tab
+            // (opening in same tab will navigate away to the file and typically trigger a download)
+            setTimeout(() => {
+              // If file still didn't start, leave the visible fallback button for the user
+              // We don't auto-navigate to avoid unexpected behavior in some browsers.
+            }, 700);
+          } catch (err) {
+            // If programmatic click fails, show fallback notice
+            status.textContent = 'Automatic download blocked by your browser. Please click the button below.';
+          }
+        }
+      }, 1000);
+    })();
+  </script>
 </body>
 </html>
